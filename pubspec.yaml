@@ -12,6 +12,7 @@ dependencies:
     sdk: flutter
   cupertino_icons:
   flare_flutter:
+  spritewidget:
 
 dev_dependencies:
   flutter_test:
