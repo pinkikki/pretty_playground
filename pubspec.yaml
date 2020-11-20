@@ -13,6 +13,10 @@ dependencies:
   cupertino_icons:
   flare_flutter:
   spritewidget:
+  flutter_inappwebview:
+  dio:
+  dio_cookie_manager:
+  cookie_jar:
 
 dev_dependencies:
   flutter_test:
