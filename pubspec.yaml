@@ -14,6 +14,7 @@ dependencies:
   flare_flutter:
   spritewidget:
   flutter_inappwebview:
+  http:
   dio:
   dio_cookie_manager:
   cookie_jar:
