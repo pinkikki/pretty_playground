@@ -21,6 +21,7 @@ dependencies:
   objectbox:
   objectbox_flutter_libs:
   path_provider:
+  flutter_local_notifications:
 
 dev_dependencies:
   flutter_test:
