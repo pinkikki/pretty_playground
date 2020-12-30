@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  tz.initializeTimeZones();
   runApp(App());
 }
 
@@ -41,6 +44,10 @@ class _HomePageState extends State<HomePage> {
       requestAlertPermission: true,
       requestBadgePermission: true,
       requestSoundPermission: true,
+      // foregroundで通知を出さない
+      defaultPresentAlert: false,
+      defaultPresentBadge: false,
+      defaultPresentSound: false,
     );
     final MacOSInitializationSettings initializationSettingsMacOS =
         MacOSInitializationSettings();
@@ -57,7 +64,6 @@ class _HomePageState extends State<HomePage> {
         importance: Importance.max, priority: Priority.high);
     final iOSPlatformChannelSpecifics = IOSNotificationDetails(
       sound: 'aruco_strong_with_notification.caf',
-      presentSound: true,
     );
     platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
@@ -82,11 +88,27 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             ElevatedButton(
-              child: Text('push notification'),
+              child: Text('local notification'),
               onPressed: () async {
-                await flutterLocalNotificationsPlugin.show(
-                    0, 'sample title', 'sample body', platformChannelSpecifics,
-                    payload: 'sample id');
+                await flutterLocalNotificationsPlugin.show(0, 'sample title1',
+                    'sample body1', platformChannelSpecifics,
+                    payload: 'sample id1');
+              },
+            ),
+            ElevatedButton(
+              child: Text('local notification after 5 seconds'),
+              onPressed: () async {
+                await flutterLocalNotificationsPlugin.zonedSchedule(
+                  1,
+                  'sample title2',
+                  'sample body2',
+                  tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5)),
+                  platformChannelSpecifics,
+                  uiLocalNotificationDateInterpretation:
+                      UILocalNotificationDateInterpretation.absoluteTime,
+                  androidAllowWhileIdle: true,
+                  payload: 'sample id2',
+                );
               },
             ),
           ],
