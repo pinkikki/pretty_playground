@@ -54,13 +54,13 @@ class _HomePageState extends State<HomePage> {
                 );
                 print(cookies);
 
-                // final webViewCookieManager =
-                //     inAppWebView.CookieManager.instance();
-                // cookies.forEach((c) {
-                //   print('url=${c.domain}. name=${c.name}. value=${c.value}');
-                //   webViewCookieManager.setCookie(
-                //       url: 'https://${c.domain}', name: c.name, value: c.value);
-                // });
+                final webViewCookieManager =
+                    inAppWebView.CookieManager.instance();
+                cookies.forEach((c) {
+                  print('url=${c.domain}. name=${c.name}. value=${c.value}');
+                  webViewCookieManager.setCookie(
+                      url: 'https://${c.domain}', name: c.name, value: c.value);
+                });
 
                 setState(() => isFetchedCookie = true);
               },
@@ -95,6 +95,7 @@ class _HomePageState extends State<HomePage> {
                       );
                     },
                   ));
+                  // iOSでは、return trueにすると、クラッシュしてしまった
                   return false;
                 },
               ),
@@ -117,6 +118,7 @@ class LinkPage extends StatelessWidget {
       appBar: AppBar(),
       body: Container(
         child: inAppWebView.InAppWebView(
+          // https://medium.com/flutter-community/inappwebview-the-real-power-of-webviews-in-flutter-c6d52374209dには、windowIdで実施する方法が記載されているが動作しなかった
           // windowId: windowId,
           initialUrl: url,
         ),
